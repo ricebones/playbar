@@ -1,29 +1,49 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Display</title>
-
-<style>
-html, body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  overflow: hidden;
-}
-
-iframe {
-  border: none;
-  width: 100vw;
-  height: 100vh;
-}
-</style>
-
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Playbar Live Service</title>
+  <style>
+    body {
+      margin: 0;
+      background: #000;
+      color: #fff;
+      font-family: Arial, sans-serif;
+    }
+    #app {
+      padding: 20px;
+    }
+  </style>
 </head>
-
 <body>
+  <div id="app">
+    <h1 id="title">Loading...</h1>
+    <div id="content"></div>
+  </div>
 
-<iframe src="https://script.google.com/macros/s/AKfycbyhDNN4tqZslmKdWoROJFx21SwqFBRaL0ESOkZob2j08pc1ldavknh0CyhwjrsnvrRQ/exec?view=poster&id=pool"></iframe>
+  <script>
+    const API_BASE = "https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec";
 
+    function getParam(name, fallback = "") {
+      const url = new URL(window.location.href);
+      return url.searchParams.get(name) || fallback;
+    }
+
+    async function loadData() {
+      const ids = getParam("ids", "pool");
+      const url = `${API_BASE}?page=data&ids=${encodeURIComponent(ids)}`;
+
+      const res = await fetch(url);
+      const data = await res.json();
+
+      document.getElementById("title").textContent = data.title || ids;
+      document.getElementById("content").innerHTML =
+        `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+    }
+
+    loadData();
+    setInterval(loadData, 60000);
+  </script>
 </body>
 </html>
