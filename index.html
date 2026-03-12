@@ -1,35 +1,32 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
-  <title>Playbar Status</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Playbar Status</title>
 
-  <!-- Instant redirect -->
-  <meta http-equiv="refresh"
-        content="0; url=https://script.google.com/macros/s/AKfycbyhDNN4tqZslmKdWoROJFx21SwqFBRaL0ESOkZob2j08pc1ldavknh0CyhwjrsnvrRQ/exec?view=poster&id=pool">
+<style>
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: #000;
+}
 
-  <!-- fallback redirect -->
-  <script>
-    window.location.replace(
-      "https://script.google.com/macros/s/AKfycbyhDNN4tqZslmKdWoROJFx21SwqFBRaL0ESOkZob2j08pc1ldavknh0CyhwjrsnvrRQ/exec?view=poster&id=pool"
-    );
-  </script>
-
-  <style>
-    body {
-      background:#000;
-      color:#fff;
-      font-family:system-ui;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      height:100vh;
-      margin:0;
-    }
-  </style>
+iframe {
+  border: 0;
+  width: 100%;
+  height: 100%;
+}
+</style>
 </head>
 
 <body>
-Redirecting to Playbar display…
+
+<iframe
+  src="https://script.google.com/macros/s/AKfycbyhDNN4tqZslmKdWoROJFx21SwqFBRaL0ESOkZob2j08pc1ldavknh0CyhwjrsnvrRQ/exec?view=poster&id=pool"
+  allow="fullscreen"
+></iframe>
+
 </body>
 </html>
