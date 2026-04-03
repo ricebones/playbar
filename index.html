@@ -1,32 +1,280 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Playbar Status</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Playbar Poster</title>
+  <style>
+    html, body {
+      margin: 0;
+      height: 100%;
+      background: #000;
+      color: #fff;
+      font-family: Arial, sans-serif;
+    }
 
-<style>
-html, body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  background: #000;
-}
+    .poster {
+      position: relative;
+      min-height: 100%;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 24px 22px 20px;
+      box-sizing: border-box;
+      background: #000;
+    }
 
-iframe {
-  border: 0;
-  width: 100%;
-  height: 100%;
-}
-</style>
+    .bg {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(to bottom, rgba(0,0,0,.18), rgba(0,0,0,.72)),
+        linear-gradient(to top, rgba(0,0,0,.20), rgba(0,0,0,.58)),
+        url("./images/pool.jpg");
+      background-size: cover;
+      background-position: center center;
+      filter: saturate(0.95) contrast(1.05) brightness(0.90);
+      transform: scale(1.02);
+    }
+
+    .bg::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(120% 90% at 50% 10%, rgba(255,255,255,.06), rgba(0,0,0,0) 36%),
+        radial-gradient(130% 130% at 50% 50%, rgba(0,0,0,0) 35%, rgba(0,0,0,.88) 100%);
+    }
+
+    .content {
+      position: relative;
+      z-index: 2;
+      min-height: calc(100vh - 44px);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      text-align: center;
+    }
+
+    .title {
+      margin-top: 10px;
+      font-weight: 900;
+      letter-spacing: 6px;
+      text-transform: uppercase;
+      font-size: clamp(34px, 6vw, 68px);
+      line-height: .95;
+      color: #fff;
+      text-shadow:
+        -2px -2px 0 #000,
+         2px -2px 0 #000,
+        -2px  2px 0 #000,
+         2px  2px 0 #000,
+         0 3px 0 #000,
+         0 10px 40px rgba(0,0,0,.8),
+         0 0 20px rgba(255,255,255,.10);
+    }
+
+    .divider {
+      width: 82%;
+      height: 2px;
+      background: rgba(255,255,255,.38);
+      box-shadow: 0 0 10px rgba(255,255,255,.16);
+      margin: 14px 0;
+    }
+
+    .status {
+      font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+      font-size: 200px;
+      font-weight: 900;
+      line-height: .85;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-align: center;
+      color: #fff;
+      max-width: 92%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-shadow:
+        -3px -3px 0 #000,
+         3px -3px 0 #000,
+        -3px  3px 0 #000,
+         3px  3px 0 #000,
+         0 8px 0 #000,
+         0 24px 60px rgba(0,0,0,.95),
+         0 0 25px rgba(255,255,255,.15);
+    }
+
+    .next {
+      font-size: 100px;
+      font-weight: 900;
+      line-height: 1.0;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      text-align: center;
+      color: #fff;
+      width: 50%;
+      margin: 0 auto;
+      white-space: nowrap;
+      overflow: hidden;
+      text-shadow:
+        -2px -2px 0 #000,
+         2px -2px 0 #000,
+        -2px  2px 0 #000,
+         2px  2px 0 #000,
+         0 4px 0 #000,
+         0 10px 25px rgba(0,0,0,.85),
+         0 0 10px rgba(255,255,255,.08);
+    }
+
+    .cta {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      width: 100%;
+      max-width: 760px;
+      margin-bottom: 10px;
+    }
+
+    .qrWrap {
+      width: 90px;
+      height: 90px;
+      background: #fff;
+      padding: 6px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,.5);
+      box-sizing: border-box;
+    }
+
+    .qr {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .ctaText {
+      font-size: 34px;
+      font-weight: 900;
+      line-height: 1.2;
+      color: #fff;
+      text-align: center;
+      max-width: 90%;
+      text-shadow:
+        -2px -2px 0 #000,
+         2px -2px 0 #000,
+        -2px  2px 0 #000,
+         2px  2px 0 #000,
+         0 4px 0 #000,
+         0 12px 30px rgba(0,0,0,.9),
+         0 0 12px rgba(255,255,255,.10);
+    }
+
+    .footer {
+      font-size: 12px;
+      letter-spacing: 1px;
+      color: rgba(255,255,255,.72);
+      text-shadow:
+        0 1px 0 #000,
+        0 4px 10px rgba(0,0,0,.7);
+      margin-bottom: 8px;
+    }
+  </style>
 </head>
-
 <body>
+  <div class="poster">
+    <div class="bg"></div>
 
-<iframe
-  src="https://script.google.com/macros/s/AKfycbyhDNN4tqZslmKdWoROJFx21SwqFBRaL0ESOkZob2j08pc1ldavknh0CyhwjrsnvrRQ/exec?id=darts"
-  allow="fullscreen"
-></iframe>
+    <div class="content">
+      <div class="title" id="title">POOL</div>
 
+      <div style="width:100%;">
+        <div class="divider"></div>
+        <div id="status" class="status">LOADING</div>
+        <div class="divider"></div>
+        <div id="next" class="next">LOADING</div>
+      </div>
+
+      <div class="cta">
+        <div class="qrWrap">
+          <img class="qr" src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=https%3A%2F%2Fwww.playbar.uk%2Fgames" alt="QR code">
+        </div>
+        <div class="ctaText">
+          FREE to use... or scan the QR code to jump the queue!
+        </div>
+      </div>
+
+      <div class="footer" id="updated"></div>
+    </div>
+  </div>
+
+  <script>
+    const SERVICE_ID = "pool";
+    const DATA_URL = https://script.google.com/macros/s/AKfycbyhDNN4tqZslmKdWoROJFx21SwqFBRaL0ESOkZob2j08pc1ldavknh0CyhwjrsnvrRQ/exec;
+
+    const titleEl = document.getElementById("title");
+    const statusEl = document.getElementById("status");
+    const nextEl = document.getElementById("next");
+    const updatedEl = document.getElementById("updated");
+
+    function fitText(el, maxWidthRatio) {
+      const maxWidth = el.parentElement.clientWidth * maxWidthRatio;
+      let size = 200;
+      el.style.fontSize = size + "px";
+
+      while (el.scrollWidth > maxWidth && size > 40) {
+        size -= 2;
+        el.style.fontSize = size + "px";
+      }
+      return size;
+    }
+
+    function render(data) {
+      if (!data || data.error || !data.rows || !data.rows[0]) return;
+
+      const row = data.rows[0];
+      titleEl.textContent = String(row.service || SERVICE_ID).toUpperCase();
+
+      statusEl.textContent = String(row.now || "").toUpperCase();
+      const nowSize = fitText(statusEl, 0.92);
+
+      nextEl.textContent = String(row.next || "").toUpperCase();
+      nextEl.style.fontSize = (nowSize * 0.5) + "px";
+
+      while (nextEl.scrollWidth > nextEl.clientWidth && parseFloat(nextEl.style.fontSize) > 24) {
+        nextEl.style.fontSize = (parseFloat(nextEl.style.fontSize) - 2) + "px";
+      }
+
+      const dt = data.last_updated ? new Date(data.last_updated) : new Date();
+      updatedEl.textContent = "UPDATED " + dt.toLocaleTimeString("en-GB");
+    }
+
+    function loadData() {
+      const cb = "__playbar_cb_" + Date.now() + "_" + Math.floor(Math.random() * 100000);
+
+      window[cb] = function(data) {
+        try { render(data); }
+        finally {
+          delete window[cb];
+          script.remove();
+        }
+      };
+
+      const script = document.createElement("script");
+      script.src = DATA_URL + "?page=data&id=" + encodeURIComponent(SERVICE_ID) + "&prefix=" + encodeURIComponent(cb);
+      script.onerror = function() {
+        delete window[cb];
+        script.remove();
+      };
+      document.body.appendChild(script);
+    }
+
+    loadData();
+    setInterval(loadData, 10000);
+  </script>
 </body>
 </html>
